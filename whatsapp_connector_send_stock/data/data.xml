@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!-- product.product -->
+    <record id="chatroom_email_template_product_link_1" model="mail.template">
+        <field name="name">ChatRoom: Odoo Website Link</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="body_html"><![CDATA[<p>
+See on our website ${object.name}<br>
+https://acruxlab.com/shop/${object.product_tmpl_id.id}</p>]]></field>
+        <field name="lang">${object.company_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- product.product -->
+    <record id="chatroom_email_template_product_link_2" model="mail.template">
+        <field name="name">ChatRoom: External Website Link</field>
+        <field name="model_id" ref="product.model_product_product"/>
+        <field name="body_html"><![CDATA[<p>
+https://my_external_website.com/product/${object.product_tmpl_id.default_code}</p>]]></field>
+        <field name="lang">${object.company_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- product.template -->
+    <record id="chatroom_email_template_product_link_3" model="mail.template">
+        <field name="name">ChatRoom: Variants Name</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="body_html"><![CDATA[<p>
+*${object.name}*:<br>
+% for attr in object.attribute_line_ids:
+% set values = ', '.join(attr.value_ids.mapped('name'))
+*${attr.attribute_id.name}*: ${values}<br>
+% endfor
+</p>]]></field>
+        <field name="lang">${object.company_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- product.template -->
+    <record id="chatroom_email_template_product_link_4" model="mail.template">
+        <field name="name">ChatRoom: Variants Name + Link</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="body_html"><![CDATA[<p>
+*${object.name}*:<br>
+% for attr in object.attribute_line_ids:
+% set values = ', '.join(attr.value_ids.mapped('name'))
+*${attr.attribute_id.name}*: ${values}<br>
+% endfor
+<br>
+See on our website: https://acruxlab.com/shop/${object.id}
+</p>]]></field>
+        <field name="lang">${object.company_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="chatroom_email_template_stock_simple" model="mail.template">
+        <field name="name">ChatRoom: Stock</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="body_html"><![CDATA[<p>Hello ${object.partner_id.name}<br/>We are glad to inform you that your order *${object.name or 'n/a'}* has been shipped.</p>]]></field>
+        <field name="lang">${object.company_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="chatroom_email_template_stock_pdf" model="mail.template">
+        <field name="name">ChatRoom: Stock PDF</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="body_html"><![CDATA[<p>Hello ${object.partner_id.name}<br>We are glad to inform you that your order *${object.name or 'n/a'}* has been shipped.<br>Please find your delivery order attached for more details.</p>]]></field>
+        <field name="report_template" ref="stock.action_report_delivery"/>
+        <field name="report_name">${(object.name or '').replace('/','_')}</field>
+        <field name="lang">${object.company_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+</data>
+</odoo>
